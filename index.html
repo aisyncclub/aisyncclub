@@ -68,28 +68,35 @@
             color: #00c7ae;
         }
         
-        /* 메인 섹션 스타일 */
-        .main {
-            padding: 40px 0;
-        }
-        
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        
-        /* 서비스 하이라이트 섹션 */
-        .service-highlight {
-            background: linear-gradient(135deg, #4e54c8, #8f94fb);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 40px;
+        /* 슬라이더 스타일 */
+        .slider-container {
             position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 40px;
             height: 400px;
+        }
+        
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            flex: 0 0 100%;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            height: 400px;
+            position: relative;
             display: flex;
             align-items: center;
+        }
+        
+        .slide:nth-child(2) {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+        
+        .slide:nth-child(3) {
+            background: linear-gradient(135deg, #FF416C, #FF4B2B);
         }
         
         .highlight-content {
@@ -133,6 +140,55 @@
             width: 60%;
             max-height: 90%;
             z-index: 1;
+        }
+        
+        .slider-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+        
+        .slider-dot.active {
+            background: white;
+        }
+        
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .slider-arrow-left {
+            left: 20px;
+        }
+        
+        .slider-arrow-right {
+            right: 20px;
+        }
+        
+        .slider-arrow:hover {
+            background-color: rgba(255, 255, 255, 0.5);
         }
         
         /* 검색 섹션 */
@@ -207,6 +263,41 @@
             background-repeat: no-repeat;
             background-position: right 15px center;
             cursor: pointer;
+        }
+        
+        /* 카테고리 탭 스타일 */
+        .category-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .category-tabs::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+        
+        .category-tab {
+            padding: 15px 20px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+        
+        .category-tab.active {
+            color: #00c7ae;
+            border-bottom: 3px solid #00c7ae;
+        }
+        
+        .category-content {
+            display: none;
+        }
+        
+        .category-content.active {
+            display: block;
         }
         
         /* 서비스 카드 목록 */
@@ -453,14 +544,57 @@
     <!-- 메인 콘텐츠 -->
     <main class="main">
         <div class="container">
-            <!-- 하이라이트 서비스 섹션 -->
-            <section class="service-highlight">
-                <div class="highlight-content">
-                    <div class="highlight-badge">생성형 AI 기반 기업교육 서비스</div>
-                    <h2 class="highlight-title">물입이 쉬워지는<br><span>커리어 성장 여정</span><br>프로클래스</h2>
-                    <p class="highlight-description">교육 자원 부족, 높은 인력 분산도, 급변하는 경영환경...<br>프로클래스로 입맞춤 교육의 한계를 극복하세요!</p>
+            <!-- 슬라이더 섹션 -->
+            <section class="slider-container">
+                <div class="slider">
+                    <!-- 슬라이드 1 -->
+                    <div class="slide">
+                        <div class="highlight-content">
+                            <div class="highlight-badge">생성형 AI 기반 기업교육 서비스</div>
+                            <h2 class="highlight-title">물입이 쉬워지는<br><span>커리어 성장 여정</span><br>프로클래스</h2>
+                            <p class="highlight-description">교육 자원 부족, 높은 인력 분산도, 급변하는 경영환경...<br>프로클래스로 입맞춤 교육의 한계를 극복하세요!</p>
+                        </div>
+                        <img src="/api/placeholder/600/500" alt="프로클래스 서비스 이미지" class="highlight-image">
+                    </div>
+                    
+                    <!-- 슬라이드 2 -->
+                    <div class="slide">
+                        <div class="highlight-content">
+                            <div class="highlight-badge">최신 생성형 AI 마케팅 도구</div>
+                            <h2 class="highlight-title">한 번에 끝내는<br><span>콘텐츠 마케팅</span><br>마켓GPT</h2>
+                            <p class="highlight-description">콘텐츠 제작에 시간 낭비하지 마세요!<br>AI로 최적화된 마케팅 콘텐츠를 자동으로 생성하세요.</p>
+                        </div>
+                        <img src="/api/placeholder/600/500" alt="마켓GPT 서비스 이미지" class="highlight-image">
+                    </div>
+                    
+                    <!-- 슬라이드 3 -->
+                    <div class="slide">
+                        <div class="highlight-content">
+                            <div class="highlight-badge">AI 기반 디자인 자동화 툴</div>
+                            <h2 class="highlight-title">상상하는 모든 것<br><span>이미지로 구현하는</span><br>디자인AI</h2>
+                            <p class="highlight-description">텍스트만 입력하면 프로 수준의 디자인이 완성!<br>로고, 포스터, SNS 이미지를 한 번에 제작하세요.</p>
+                        </div>
+                        <img src="/api/placeholder/600/500" alt="디자인AI 서비스 이미지" class="highlight-image">
+                    </div>
                 </div>
-                <img src="/api/placeholder/600/500" alt="프로클래스 서비스 이미지" class="highlight-image">
+                
+                <!-- 슬라이더 컨트롤 -->
+                <div class="slider-controls">
+                    <div class="slider-dot active" data-index="0"></div>
+                    <div class="slider-dot" data-index="1"></div>
+                    <div class="slider-dot" data-index="2"></div>
+                </div>
+                
+                <div class="slider-arrow slider-arrow-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </div>
+                <div class="slider-arrow slider-arrow-right">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
             </section>
 
             <!-- 검색 섹션 -->
@@ -509,218 +643,128 @@
                 </div>
             </section>
 
-            <!-- 서비스 리스트 섹션 -->
-            <section class="service-list-section">
-                <div class="service-list">
-                    <!-- 서비스 카드 1 -->
-                    <div class="service-card">
-                        <div class="service-logo">
-                            <img src="/api/placeholder/80/80" alt="프로클래스 로고">
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">프로클래스</h3>
-                            <p class="service-description">물입힘 학습을 구현하는 생성형 AI 기반 기업교육 서비스</p>
-                            <div class="service-tags">
-                                <span class="tag">국내</span>
-                                <span class="tag">유료</span>
-                                <span class="tag">무료</span>
-                                <span class="tag">교육</span>
-                                <span class="tag">업무보조</span>
-                            </div>
-                        </div>
-                        <div class="service-likes">
-                            <button class="like-button">
-                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                </svg>
-                                <span class="like-count">0</span>
-                            </button>
-                        </div>
-                    </div>
+            <!-- 카테고리별 탭 섹션 -->
+            <section class="category-section">
+                <div class="category-tabs">
+                    <div class="category-tab active" data-category="all">전체</div>
+                    <div class="category-tab" data-category="text-generation">텍스트 생성</div>
+                    <div class="category-tab" data-category="image-generation">이미지 생성</div>
+                    <div class="category-tab" data-category="video-generation">비디오 생성</div>
+                    <div class="category-tab" data-category="voice-generation">음성 생성</div>
+                    <div class="category-tab" data-category="education">교육</div>
+                    <div class="category-tab" data-category="marketing">마케팅</div>
+                    <div class="category-tab" data-category="office">업무 자동화</div>
+                    <div class="category-tab" data-category="coding">코딩 보조</div>
+                </div>
 
-                    <!-- 서비스 카드 2 -->
-                    <div class="service-card">
-                        <div class="service-logo">
-                            <img src="/api/placeholder/80/80" alt="가제트 AI 로고">
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">가제트 AI</h3>
-                            <p class="service-description">30초 내 블로그글 생성해주는 AI</p>
-                            <div class="service-tags">
-                                <span class="tag">국내</span>
-                                <span class="tag">유료</span>
-                                <span class="tag">무료</span>
-                                <span class="tag">카피라이팅</span>
-                                <span class="tag">글쓰기</span>
+                <!-- 전체 카테고리 콘텐츠 -->
+                <div class="category-content active" id="all">
+                    <div class="service-list">
+                        <!-- 서비스 카드 1 -->
+                        <div class="service-card">
+                            <div class="service-logo">
+                                <img src="/api/placeholder/80/80" alt="프로클래스 로고">
+                            </div>
+                            <div class="service-info">
+                                <h3 class="service-name">프로클래스</h3>
+                                <p class="service-description">물입힘 학습을 구현하는 생성형 AI 기반 기업교육 서비스</p>
+                                <div class="service-tags">
+                                    <span class="tag">국내</span>
+                                    <span class="tag">유료</span>
+                                    <span class="tag">무료</span>
+                                    <span class="tag">교육</span>
+                                    <span class="tag">업무보조</span>
+                                </div>
+                            </div>
+                            <div class="service-likes">
+                                <button class="like-button">
+                                    <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    <span class="like-count">0</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="service-likes">
-                            <button class="like-button">
-                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                </svg>
-                                <span class="like-count">0</span>
-                            </button>
-                        </div>
-                    </div>
 
-                    <!-- 서비스 카드 3 -->
-                    <div class="service-card">
-                        <div class="service-logo">
-                            <img src="/api/placeholder/80/80" alt="ChatGPT 로고">
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">ChatGPT</h3>
-                            <p class="service-description">OpenAI에서 개발한 대화형 AI 모델로, 다양한 질문에 대한 답변과 정보 제공 가능</p>
-                            <div class="service-tags">
-                                <span class="tag">해외</span>
-                                <span class="tag">유료</span>
-                                <span class="tag">무료</span>
-                                <span class="tag">챗봇</span>
-                                <span class="tag">텍스트 생성</span>
+                        <!-- 서비스 카드 2 -->
+                        <div class="service-card">
+                            <div class="service-logo">
+                                <img src="/api/placeholder/80/80" alt="가제트 AI 로고">
+                            </div>
+                            <div class="service-info">
+                                <h3 class="service-name">가제트 AI</h3>
+                                <p class="service-description">30초 내 블로그글 생성해주는 AI</p>
+                                <div class="service-tags">
+                                    <span class="tag">국내</span>
+                                    <span class="tag">유료</span>
+                                    <span class="tag">무료</span>
+                                    <span class="tag">카피라이팅</span>
+                                    <span class="tag">글쓰기</span>
+                                </div>
+                            </div>
+                            <div class="service-likes">
+                                <button class="like-button">
+                                    <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    <span class="like-count">0</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="service-likes">
-                            <button class="like-button">
-                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                </svg>
-                                <span class="like-count">0</span>
-                            </button>
-                        </div>
-                    </div>
 
-                    <!-- 서비스 카드 4 -->
-                    <div class="service-card">
-                        <div class="service-logo">
-                            <img src="/api/placeholder/80/80" alt="Midjourney 로고">
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">Midjourney</h3>
-                            <p class="service-description">텍스트 프롬프트를 기반으로 고품질 이미지를 생성하는 AI 도구</p>
-                            <div class="service-tags">
-                                <span class="tag">해외</span>
-                                <span class="tag">유료</span>
-                                <span class="tag">이미지 생성</span>
-                                <span class="tag">디자인</span>
+                        <!-- 더 많은 서비스 카드... -->
+                        <div class="service-card">
+                            <div class="service-logo">
+                                <img src="/api/placeholder/80/80" alt="ChatGPT 로고">
                             </div>
-                        </div>
-                        <div class="service-likes">
-                            <button class="like-button">
-                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                </svg>
-                                <span class="like-count">0</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- 서비스 카드 5 -->
-                    <div class="service-card">
-                        <div class="service-logo">
-                            <img src="/api/placeholder/80/80" alt="Notion AI 로고">
-                        </div>
-                        <div class="service-info">
-                            <h3 class="service-name">Notion AI</h3>
-                            <p class="service-description">Notion에 통합된 AI 작문 도우미로, 문서 작성, 요약, 번역 등 다양한 기능 제공</p>
-                            <div class="service-tags">
-                                <span class="tag">해외</span>
-                                <span class="tag">유료</span>
-                                <span class="tag">텍스트 생성</span>
-                                <span class="tag">생산성</span>
-                                <span class="tag">업무보조</span>
+                            <div class="service-info">
+                                <h3 class="service-name">ChatGPT</h3>
+                                <p class="service-description">OpenAI에서 개발한 대화형 AI 모델로, 다양한 질문에 대한 답변과 정보 제공 가능</p>
+                                <div class="service-tags">
+                                    <span class="tag">해외</span>
+                                    <span class="tag">유료</span>
+                                    <span class="tag">무료</span>
+                                    <span class="tag">챗봇</span>
+                                    <span class="tag">텍스트 생성</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="service-likes">
-                            <button class="like-button">
-                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                </svg>
-                                <span class="like-count">0</span>
-                            </button>
+                            <div class="service-likes">
+                                <button class="like-button">
+                                    <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    <span class="like-count">0</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 페이지네이션 -->
-                <div class="pagination">
-                    <button class="pagination-button active">1</button>
-                    <button class="pagination-button">2</button>
-                    <button class="pagination-button">3</button>
-                    <button class="pagination-button">4</button>
-                    <button class="pagination-button">5</button>
-                    <button class="pagination-button">다음 &gt;</button>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <!-- 푸터 섹션 -->
-    <footer>
-        <div class="container footer-container">
-            <div class="footer-info-container">
-                <div class="footer-logo">
-                    <img src="/api/placeholder/120/40" alt="AI판 로고">
-                </div>
-                <div class="footer-info">
-                    <p>© 2025 AI판. All rights reserved.</p>
-                    <p>최신 AI 서비스 정보를 한눈에 볼 수 있는 플랫폼</p>
-                    <p>문의: contact@aipan.com</p>
-                </div>
-            </div>
-            <div class="footer-links">
-                <div class="footer-column">
-                    <h3>서비스</h3>
-                    <ul>
-                        <li><a href="#">AI 서비스 검색</a></li>
-                        <li><a href="#">카테고리별 보기</a></li>
-                        <li><a href="#">추천 서비스</a></li>
-                        <li><a href="#">인기 순위</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>정보</h3>
-                    <ul>
-                        <li><a href="#">서비스 소개</a></li>
-                        <li><a href="#">이용약관</a></li>
-                        <li><a href="#">개인정보처리방침</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>문의</h3>
-                    <ul>
-                        <li><a href="#">서비스 등록 요청</a></li>
-                        <li><a href="#">제휴 문의</a></li>
-                        <li><a href="#">고객 지원</a></li>
-                        <li><a href="#">피드백</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // 좋아요 버튼 기능
-        document.querySelectorAll('.like-button').forEach(button => {
-            button.addEventListener('click', function() {
-                const countElement = this.querySelector('.like-count');
-                let count = parseInt(countElement.textContent);
-                count++;
-                countElement.textContent = count;
-                
-                // 여기에 좋아요 API 호출 코드 추가 가능
-            });
-        });
-        
-        // 필터 적용 기능 (실제 구현 시 필요)
-        document.querySelectorAll('.filter-select').forEach(select => {
-            select.addEventListener('change', function() {
-                // 필터 적용 로직 구현
-                console.log('필터 변경:', this.value);
-                // 실제 구현 시 여기에 필터링된 결과를 표시하는 코드 추가
-            });
-        });
-    </script>
-</body>
-</html>
+                <!-- 텍스트 생성 카테고리 콘텐츠 -->
+                <div class="category-content" id="text-generation">
+                    <div class="service-list">
+                        <div class="service-card">
+                            <div class="service-logo">
+                                <img src="/api/placeholder/80/80" alt="ChatGPT 로고">
+                            </div>
+                            <div class="service-info">
+                                <h3 class="service-name">ChatGPT</h3>
+                                <p class="service-description">OpenAI에서 개발한 대화형 AI 모델로, 다양한 질문에 대한 답변과 정보 제공 가능</p>
+                                <div class="service-tags">
+                                    <span class="tag">해외</span>
+                                    <span class="tag">유료</span>
+                                    <span class="tag">무료</span>
+                                    <span class="tag">챗봇</span>
+                                    <span class="tag">텍스트 생성</span>
+                                </div>
+                            </div>
+                            <div class="service-likes">
+                                <button class="like-button">
+                                    <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                    <span class="like-count">0</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="service-card">
