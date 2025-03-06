@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI판 - AI 서비스 디렉토리</title>
+    <style>
+        /* 전체 스타일 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 헤더 스타일 */
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-left: 30px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        .nav-menu a:hover {
+            color: #00c7ae;
+        }
+        
+        /* 메인 섹션 스타일 */
+        .main {
+            padding: 40px 0;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        /* 서비스 하이라이트 섹션 */
+        .service-highlight {
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .highlight-content {
+            width: 50%;
+            padding: 40px;
+            color: white;
+            z-index: 2;
+        }
+        
+        .highlight-badge {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .highlight-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .highlight-title span {
+            color: #00eeff;
+        }
+        
+        .highlight-description {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .highlight-image {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 60%;
+            max-height: 90%;
+            z-index: 1;
+        }
+        
+        /* 검색 섹션 */
+        .search-section {
+            margin-bottom: 40px;
+        }
+        
+        .search-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .search-button {
+            padding: 12px 20px;
+            background-color: #00c7ae;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .detailed-button {
+            padding: 12px 20px;
+            background-color: #f1f3f5;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        /* 필터 섹션 */
+        .filter-container {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+        
+        .filter-dropdown {
+            flex: 1;
+            position: relative;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23333' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            cursor: pointer;
+        }
+        
+        /* 서비스 카드 목록 */
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .service-card {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 20px;
+            border: 1px solid #eee;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .service-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .service-info {
+            flex-grow: 1;
+        }
+        
+        .service-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .service-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .service-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #f1f3f5;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .service-likes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 20px;
+        }
+        
+        .like-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .like-icon {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .like-count {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+        }
+        
+        /* 페이지네이션 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination-button {
+            display: inline-block;
+            padding: 8px 14px;
+            margin: 0 5px;
+            border-radius: 4px;
+            background-color: white;
+            border: 1px solid #ddd;
+            color: #333;
+            cursor: pointer;
+        }
+        
+        .pagination-button.active {
+            background-color: #00c7ae;
+            color: white;
+            border-color: #00c7ae;
+        }
+        
+        /* 푸터 스타일 */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .footer-logo {
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo img {
+            height: 40px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-info {
+            font-size: 14px;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+        }
+        
+        /* 반응형 스타일 */
+        @media (max-width: 768px) {
+            .highlight-content {
+                width: 100%;
+                padding: 30px;
+            }
+            
+            .highlight-image {
+                position: relative;
+                width: 100%;
+                margin-top: 20px;
+                right: auto;
+                bottom: auto;
+            }
+            
+            .service-highlight {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .filter-container {
+                flex-wrap: wrap;
+            }
+            
+            .filter-dropdown {
+                flex: 1 1 45%;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                margin-top: 30px;
+                gap: 20px;
+            }
+            
+            .footer-column {
+                flex: 1 1 45%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 섹션 -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="/api/placeholder/120/40" alt="AI판 로고">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#">홈</a></li>
+                <li><a href="#">카테고리</a></li>
+                <li><a href="#">랭킹</a></li>
+                <li><a href="#">새로운 AI</a></li>
+                <li><a href="#">문의하기</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <main class="main">
+        <div class="container">
+            <!-- 하이라이트 서비스 섹션 -->
+            <section class="service-highlight">
+                <div class="highlight-content">
+                    <div class="highlight-badge">생성형 AI 기반 기업교육 서비스</div>
+                    <h2 class="highlight-title">물입이 쉬워지는<br><span>커리어 성장 여정</span><br>프로클래스</h2>
+                    <p class="highlight-description">교육 자원 부족, 높은 인력 분산도, 급변하는 경영환경...<br>프로클래스로 입맞춤 교육의 한계를 극복하세요!</p>
+                </div>
+                <img src="/api/placeholder/600/500" alt="프로클래스 서비스 이미지" class="highlight-image">
+            </section>
+
+            <!-- 검색 섹션 -->
+            <section class="search-section">
+                <h3 class="search-title">필요한 AI 서비스를 찾아보세요~!</h3>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="서비스명을 입력해주세요.">
+                    <button class="search-button">검색</button>
+                    <button class="detailed-button">전체</button>
+                </div>
+                <div class="filter-container">
+                    <div class="filter-dropdown">
+                        <select class="filter-select">
+                            <option value="">분류</option>
+                            <option value="education">교육</option>
+                            <option value="marketing">마케팅</option>
+                            <option value="design">디자인</option>
+                            <option value="productivity">생산성</option>
+                        </select>
+                    </div>
+                    <div class="filter-dropdown">
+                        <select class="filter-select">
+                            <option value="">이용료</option>
+                            <option value="free">무료</option>
+                            <option value="paid">유료</option>
+                            <option value="freemium">프리미엄</option>
+                        </select>
+                    </div>
+                    <div class="filter-dropdown">
+                        <select class="filter-select">
+                            <option value="">카테고리</option>
+                            <option value="text">텍스트</option>
+                            <option value="image">이미지</option>
+                            <option value="video">비디오</option>
+                            <option value="audio">오디오</option>
+                        </select>
+                    </div>
+                    <div class="filter-dropdown">
+                        <select class="filter-select">
+                            <option value="">정렬순</option>
+                            <option value="popular">인기순</option>
+                            <option value="recent">최신순</option>
+                            <option value="rating">평점순</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 서비스 리스트 섹션 -->
+            <section class="service-list-section">
+                <div class="service-list">
+                    <!-- 서비스 카드 1 -->
+                    <div class="service-card">
+                        <div class="service-logo">
+                            <img src="/api/placeholder/80/80" alt="프로클래스 로고">
+                        </div>
+                        <div class="service-info">
+                            <h3 class="service-name">프로클래스</h3>
+                            <p class="service-description">물입힘 학습을 구현하는 생성형 AI 기반 기업교육 서비스</p>
+                            <div class="service-tags">
+                                <span class="tag">국내</span>
+                                <span class="tag">유료</span>
+                                <span class="tag">무료</span>
+                                <span class="tag">교육</span>
+                                <span class="tag">업무보조</span>
+                            </div>
+                        </div>
+                        <div class="service-likes">
+                            <button class="like-button">
+                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                <span class="like-count">0</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 서비스 카드 2 -->
+                    <div class="service-card">
+                        <div class="service-logo">
+                            <img src="/api/placeholder/80/80" alt="가제트 AI 로고">
+                        </div>
+                        <div class="service-info">
+                            <h3 class="service-name">가제트 AI</h3>
+                            <p class="service-description">30초 내 블로그글 생성해주는 AI</p>
+                            <div class="service-tags">
+                                <span class="tag">국내</span>
+                                <span class="tag">유료</span>
+                                <span class="tag">무료</span>
+                                <span class="tag">카피라이팅</span>
+                                <span class="tag">글쓰기</span>
+                            </div>
+                        </div>
+                        <div class="service-likes">
+                            <button class="like-button">
+                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                <span class="like-count">0</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 서비스 카드 3 -->
+                    <div class="service-card">
+                        <div class="service-logo">
+                            <img src="/api/placeholder/80/80" alt="ChatGPT 로고">
+                        </div>
+                        <div class="service-info">
+                            <h3 class="service-name">ChatGPT</h3>
+                            <p class="service-description">OpenAI에서 개발한 대화형 AI 모델로, 다양한 질문에 대한 답변과 정보 제공 가능</p>
+                            <div class="service-tags">
+                                <span class="tag">해외</span>
+                                <span class="tag">유료</span>
+                                <span class="tag">무료</span>
+                                <span class="tag">챗봇</span>
+                                <span class="tag">텍스트 생성</span>
+                            </div>
+                        </div>
+                        <div class="service-likes">
+                            <button class="like-button">
+                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                <span class="like-count">0</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 서비스 카드 4 -->
+                    <div class="service-card">
+                        <div class="service-logo">
+                            <img src="/api/placeholder/80/80" alt="Midjourney 로고">
+                        </div>
+                        <div class="service-info">
+                            <h3 class="service-name">Midjourney</h3>
+                            <p class="service-description">텍스트 프롬프트를 기반으로 고품질 이미지를 생성하는 AI 도구</p>
+                            <div class="service-tags">
+                                <span class="tag">해외</span>
+                                <span class="tag">유료</span>
+                                <span class="tag">이미지 생성</span>
+                                <span class="tag">디자인</span>
+                            </div>
+                        </div>
+                        <div class="service-likes">
+                            <button class="like-button">
+                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                <span class="like-count">0</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 서비스 카드 5 -->
+                    <div class="service-card">
+                        <div class="service-logo">
+                            <img src="/api/placeholder/80/80" alt="Notion AI 로고">
+                        </div>
+                        <div class="service-info">
+                            <h3 class="service-name">Notion AI</h3>
+                            <p class="service-description">Notion에 통합된 AI 작문 도우미로, 문서 작성, 요약, 번역 등 다양한 기능 제공</p>
+                            <div class="service-tags">
+                                <span class="tag">해외</span>
+                                <span class="tag">유료</span>
+                                <span class="tag">텍스트 생성</span>
+                                <span class="tag">생산성</span>
+                                <span class="tag">업무보조</span>
+                            </div>
+                        </div>
+                        <div class="service-likes">
+                            <button class="like-button">
+                                <svg class="like-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                <span class="like-count">0</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 페이지네이션 -->
+                <div class="pagination">
+                    <button class="pagination-button active">1</button>
+                    <button class="pagination-button">2</button>
+                    <button class="pagination-button">3</button>
+                    <button class="pagination-button">4</button>
+                    <button class="pagination-button">5</button>
+                    <button class="pagination-button">다음 &gt;</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 푸터 섹션 -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-info-container">
+                <div class="footer-logo">
+                    <img src="/api/placeholder/120/40" alt="AI판 로고">
+                </div>
+                <div class="footer-info">
+                    <p>© 2025 AI판. All rights reserved.</p>
+                    <p>최신 AI 서비스 정보를 한눈에 볼 수 있는 플랫폼</p>
+                    <p>문의: contact@aipan.com</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>서비스</h3>
+                    <ul>
+                        <li><a href="#">AI 서비스 검색</a></li>
+                        <li><a href="#">카테고리별 보기</a></li>
+                        <li><a href="#">추천 서비스</a></li>
+                        <li><a href="#">인기 순위</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>정보</h3>
+                    <ul>
+                        <li><a href="#">서비스 소개</a></li>
+                        <li><a href="#">이용약관</a></li>
+                        <li><a href="#">개인정보처리방침</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>문의</h3>
+                    <ul>
+                        <li><a href="#">서비스 등록 요청</a></li>
+                        <li><a href="#">제휴 문의</a></li>
+                        <li><a href="#">고객 지원</a></li>
+                        <li><a href="#">피드백</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 좋아요 버튼 기능
+        document.querySelectorAll('.like-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const countElement = this.querySelector('.like-count');
+                let count = parseInt(countElement.textContent);
+                count++;
+                countElement.textContent = count;
+                
+                // 여기에 좋아요 API 호출 코드 추가 가능
+            });
+        });
+        
+        // 필터 적용 기능 (실제 구현 시 필요)
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', function() {
+                // 필터 적용 로직 구현
+                console.log('필터 변경:', this.value);
+                // 실제 구현 시 여기에 필터링된 결과를 표시하는 코드 추가
+            });
+        });
+    </script>
+</body>
+</html>
